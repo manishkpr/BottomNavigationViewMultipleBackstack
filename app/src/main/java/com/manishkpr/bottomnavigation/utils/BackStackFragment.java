@@ -29,4 +29,26 @@ public abstract class BackStackFragment extends Fragment {
         }
         return false;
     }
+
+    public  boolean hasFragments() {
+        FragmentManager fm = getChildFragmentManager();
+        if(getUserVisibleHint() && fm.getBackStackEntryCount() > 0) {
+            return true;
+        }
+        return false;
+    }
+
+    public static boolean handleBackHome(FragmentManager fm)
+    {
+        if(fm.getFragments() != null){
+            for(Fragment frag : fm.getFragments()){
+                if(frag != null && frag.isVisible() && frag instanceof BackStackFragment){
+                    if(((BackStackFragment)frag).hasFragments()){
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
+    }
 }

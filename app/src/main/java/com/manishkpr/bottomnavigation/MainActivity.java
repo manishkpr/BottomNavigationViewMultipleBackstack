@@ -7,6 +7,8 @@ import android.support.design.widget.BottomNavigationView;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 
+import android.support.v4.app.FragmentManager;
+import android.support.v7.app.AppCompatActivity;
 import android.view.MenuItem;
 
 import com.manishkpr.bottomnavigation.adapters.CustomPagerAdapter;
@@ -15,7 +17,7 @@ import com.manishkpr.bottomnavigation.utils.CustomViewPager;
 import com.manishkpr.bottomnavigation.utils.HostFragment;
 
 
-public class MainActivity extends FragmentActivity {
+public class MainActivity extends AppCompatActivity {
     private CustomPagerAdapter customPagerAdapter;
     private CustomViewPager viewPager;
 
@@ -63,11 +65,27 @@ public class MainActivity extends FragmentActivity {
 
             int index = customPagerAdapter.getIndexMenuItemId(item.getItemId());
             viewPager.setCurrentItem(index);
-
+            toggleHomeBackIcon();
             return true;
 
         }
 
     };
 
+
+    public void toggleHomeBackIcon() {
+
+        if(BackStackFragment.handleBackHome(getSupportFragmentManager())){
+
+            if(getSupportActionBar()!=null) {
+                getSupportActionBar().setDisplayShowHomeEnabled(true);
+                getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+                //getSupportActionBar().setDisplayShowTitleEnabled(false);
+            }
+
+        }else{
+            getSupportActionBar().setDisplayShowHomeEnabled(true);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        }
+    }
 }
